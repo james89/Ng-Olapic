@@ -1,15 +1,12 @@
 var express = require('express');
-var port = process.env.PORT || 3000;
 var app = express();
+var path = require('path');
+var port = process.env.PORT;
 
-app.configure(function(){
-    // Serve up content from public directory
-    app.use(express.static(__dirname + '/public'));
-    app.use(express.static(__dirname + '/bower_components'));
-    app.use(app.router);
-    app.use(express.logger()); 
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/examples/index.html'));
 });
 
-app.listen(port, function(){
-    console.log('Express server listening on port ' + port);
+var server = app.listen(8080, function() {
+    console.log('Express server started on port ' + server.address().port);
 });
