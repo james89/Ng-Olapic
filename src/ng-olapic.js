@@ -28,7 +28,26 @@
 
            this.$get = ['$q', '$http', function($q, $http) {
 
+
+                // refactor promise pattern to something more decoupled
                 var olapicService = {
+
+                    getApiKey: function(){
+                        return settings.apiKey;
+                    },
+
+                    getAllMedia: function(){
+                        var dfd = $q.defer();
+                        $http.get(settings.baseUrl + 'customers/' + settings.clientId + '/media/recent?auth_token=' + settings.apiKey)
+                            .success(function(data){
+                                dfd.resolve(data)
+                            })
+                            .error(function(reason){
+                                dfd.resolve(reason)
+                            });
+                        return dfd.promise;
+                    }
+
 
                 }
 
