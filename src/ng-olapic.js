@@ -28,25 +28,42 @@
 
            this.$get = ['$q', '$http', function($q, $http) {
 
+                // promise handler
+                var apiService = function(){
+                    return {
+                        get : function(endpoint){
+                            var dfd = $q.defer();
+                            $http.get(settings.baseUrl + endpoint + '?auth_token=' + settings.apiKey)
+                                .success(function(data){
+                                    dfd.resolve(data)
+                                })
+                                .error(function(reason){
+                                    dfd.resolve(reason)
+                                });
+                            return dfd.promise;
+                        }
+                    }
+                };
 
-                // refactor promise pattern to something more decoupled
+                var apiHandler = new apiService();
+
                 var olapicService = {
 
                     getApiKey: function(){
                         return settings.apiKey;
                     },
 
+                    // Media methods
+
                     getAllMedia: function(){
-                        var dfd = $q.defer();
-                        $http.get(settings.baseUrl + 'customers/' + settings.clientId + '/media/recent?auth_token=' + settings.apiKey)
-                            .success(function(data){
-                                dfd.resolve(data)
-                            })
-                            .error(function(reason){
-                                dfd.resolve(reason)
-                            });
-                        return dfd.promise;
+                        return apiHandler.get('customers/' + settings.clientId + '/media/recent');
+                    },
+
+                    getStreamMedia: function(streamId){
+                         return apiHandler.get('customers/'+streamId+'/media/recent');
                     }
+
+                    // Stream methods
 
 
                 }
