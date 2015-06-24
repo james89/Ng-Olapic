@@ -47,6 +47,7 @@
 
                 var apiHandler = new apiService();
 
+
                 var olapicService = {
 
                     getApiKey: function(){
@@ -61,10 +62,30 @@
 
                     getStreamMedia: function(streamId){
                          return apiHandler.get('customers/'+streamId+'/media/recent');
-                    }
+                    },
+
+                    getCategoryMedia: function(categoryId){
+
+                    },
+
+
 
                     // Stream methods
+                    getAllStreams: function(){
 
+                    },
+
+                    getStream: function(){
+
+                    },
+
+                    getStreamByProductID: function() {
+
+                    },
+
+                    getAllStreamsOfCategory: function() {
+                        
+                    }
 
                 }
 
@@ -72,8 +93,6 @@
            }];
 
         });
-
-
 
 
 })();
